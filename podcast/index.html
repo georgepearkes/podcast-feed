@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>George Pearkes Podcast</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            margin-bottom: 0.5rem;
+        }
+        h2 {
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        .podcast-header {
+            margin-bottom: 3rem;
+        }
+        .podcast-description {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .subscribe-links {
+            margin-top: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .subscribe-links a {
+            display: inline-block;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+            color: #0366d6;
+            text-decoration: none;
+        }
+        .episode {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .episode-date {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .episode-description {
+            margin-top: 0.5rem;
+        }
+        .episode-player {
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        .back-link {
+            margin-top: 3rem;
+            display: block;
+        }
+        .error {
+            color: #d73a49;
+            padding: 1rem;
+            background-color: #fff5f5;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="podcast-header">
+        <h1 id="podcast-title">My Podcast</h1>
+        <div class="podcast-description" id="podcast-description">
+            Loading podcast information...
+        </div>
+        
+        <div class="subscribe-links">
+            <strong>Subscribe:</strong>
+            <a href="podcast.xml">RSS Feed</a>
+            <span id="other-links"></span>
+        </div>
+    </div>
+    
+    <div id="episodes-container">
+        <div class="loading">Loading episodes...</div>
+    </div>
+    
+    <a href="/" class="back-link">← Back to homepage</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch the podcast XML file
+            fetch('podcast.xml')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load podcast feed');
+                    }
+                    return response.text();
+                })
+                .then(xmlText => {
+                    // Parse the XML
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                    
+                    // Get podcast information
+                    const channel = xmlDoc.querySelector('channel');
+                    if (!channel) {
+                        throw new Error('Invalid podcast feed format');
+                    }
+                    
+                    // Update podcast title and description
+                    const podcastTitle = channel.querySelector('title');
+                    const podcastDescription = channel.querySelector('description');
+                    
+                    if (podcastTitle) {
+                        document.getElementById('podcast-title').textContent = podcastTitle.textContent;
+                        document.title = podcastTitle.textContent;
+                    }
+                    
+                    if (podcastDescription) {
+                        document.getElementById('podcast-description').textContent = podcastDescription.textContent;
+                    }
+                    
+                    // Add other subscription links if available
+                    const itunesLink = channel.querySelector('itunes\\:new-feed-url, new-feed-url') || 
+                                      channel.querySelector('atom\\:link[rel="alternate"][type="application/rss+xml"], link[rel="alternate"][type="application/rss+xml"]');
+                    
+                    let linksHTML = '';
+                    
+                    // Add Apple Podcasts link if iTunes info exists
+                    if (channel.querySelector('itunes\\:author, author') || channel.querySelector('itunes\\:category, category')) {
+                        linksHTML += '<a href="https://podcasts.apple.com/podcast/id" target="_blank">Apple Podcasts</a>';
+                    }
+                    
+                    // Add Spotify link (generic)
+                    linksHTML += '<a href="https://open.spotify.com/show/" target="_blank">Spotify</a>';
+                    
+                    document.getElementById('other-links').innerHTML = linksHTML;
+                    
+                    // Get all episodes
+                    const items = xmlDoc.querySelectorAll('item');
+                    const episodes = Array.from(items).map(item => {
+                        const title = item.querySelector('title')?.textContent || 'Untitled Episode';
+                        const description = item.querySelector('description')?.textContent || '';
+                        const pubDate = item.querySelector('pubDate')?.textContent || '';
+                        
+                        // Get audio file
+                        const enclosure = item.querySelector('enclosure[type="audio/mpeg"], enclosure[type="audio/mp3"], enclosure[type="audio/x-m4a"]');
+                        const audioUrl = enclosure?.getAttribute('url') || '';
+                        
+                        // Format date
+                        let formattedDate = '';
+                        if (pubDate) {
+                            try {
+                                const date = new Date(pubDate);
+                                formattedDate = date.toLocaleDateString('en-US', { 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric' 
+                                });
+                            } catch (e) {
+                                formattedDate = pubDate;
+                            }
+                        }
+                        
+                        return {
+                            title,
+                            description,
+                            pubDate: formattedDate,
+                            audioUrl
+                        };
+                    });
+                    
+                    // Sort episodes by date (newest first)
+                    episodes.sort((a, b) => {
+                        const dateA = a.pubDate ? new Date(a.pubDate).getTime() : 0;
+                        const dateB = b.pubDate ? new Date(b.pubDate).getTime() : 0;
+                        return dateB - dateA;
+                    });
+                    
+                    // Display episodes
+                    const episodesContainer = document.getElementById('episodes-container');
+                    episodesContainer.innerHTML = ''; // Clear loading message
+                    
+                    if (episodes.length === 0) {
+                        episodesContainer.innerHTML = '<p>No episodes found.</p>';
+                        return;
+                    }
+                    
+                    episodes.forEach(episode => {
+                        const episodeElement = document.createElement('div');
+                        episodeElement.className = 'episode';
+                        
+                        let episodeHTML = `<h2>${episode.title}</h2>`;
+                        
+                        if (episode.pubDate) {
+                            episodeHTML += `<div class="episode-date">${episode.pubDate}</div>`;
+                        }
+                        
+                        if (episode.description) {
+                            episodeHTML += `<div class="episode-description">${episode.description}</div>`;
+                        }
+                        
+                        if (episode.audioUrl) {
+                            episodeHTML += `
+                                <audio class="episode-player" controls>
+                                    <source src="${episode.audioUrl}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            `;
+                        }
+                        
+                        episodeElement.innerHTML = episodeHTML;
+                        episodesContainer.appendChild(episodeElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading podcast feed:', error);
+                    document.getElementById('episodes-container').innerHTML = `
+                        <div class="error">
+                            <p>Unable to load podcast episodes. Please try again later.</p>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>
