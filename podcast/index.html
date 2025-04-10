@@ -136,11 +136,11 @@
                     
                     // Add Apple Podcasts link if iTunes info exists
                     if (channel.querySelector('itunes\\:author, author') || channel.querySelector('itunes\\:category, category')) {
-                        linksHTML += '<a href="https://podcasts.apple.com/podcast/id" target="_blank">Apple Podcasts</a>';
+                        linksHTML += '<a href="" target="_blank">Apple Podcasts (coming soon)</a>';
                     }
                     
                     // Add Spotify link (generic)
-                    linksHTML += '<a href="https://open.spotify.com/show/" target="_blank">Spotify</a>';
+                    linksHTML += '<a href="" target="_blank">Spotify (coming soon)</a>';
                     
                     document.getElementById('other-links').innerHTML = linksHTML;
                     
