@@ -6,7 +6,9 @@
     <language>en-us</language>
     <copyright>Copyright 2025</copyright>
     <itunes:author>George Pearkes</itunes:author>
+    <itunes:owner>
     <itunes:email>doe_sank_5k@icloud.com</itunes:email>
+    </itunes:owner>
     <description>Normal Men is four guys talking about the news. We want to help explain what's happening in the world around us and have some laughs along the way. And we think you might enjoy hearing what we have to say, as long as you don't mind a bit of normalcy in a world without much of it.</description>
     <itunes:image href="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/normal-men-cover-v1-040925.png"/>
     <itunes:category text="News Commentary"/>
