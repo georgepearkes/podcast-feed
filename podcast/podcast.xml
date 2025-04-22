@@ -13,7 +13,24 @@
     <itunes:image href="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/normal-men-cover-v1-040925.png"/>
     <itunes:category text="News Commentary"/>
 
-      <item>
+    <item>
+      <title>Episode 3: Murk The Yanks</title>
+      <itunes:author>George Pearkes</itunes:author>
+      <description><p>A very normal Canadian election calls for some very Normal Men to talk about it. We also catch up on all the horrible effects of DOGE (which do not include lower government spending. Also: another update on Kilmar Ábrego García.</p>
+      
+      <p>Follow us on Bluesky!<br /><a href="https://bsky.app/profile/peark.es">@peark.es</a><br /><a href="https://bsky.app/profile/proptermalone.bsky.social">@proptermalone.bsky.social</a><br /><a href="https://bsky.app/profile/rickywlmsbong.bsky.social">@rickywlmsbong.bsky.social</a><br />
+      <a href="https://bsky.app/profile/golikehellmachine.com">@golikehellmachine.com</a></p>
+        
+      <p>You can also read GLHM's <a href="https://golikehellmachine.com/work-is-four-letters/">Work Is Four Letters</a> and <a href="https://golikehellmachine.com/doge-is-four-letters/">DOGE Is Four Letters</a>.</p>
+      <p>A full transcript of the show is available <a href="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E03+-+Murk+The+Yanks+-+Transcript.txt">here</a>. We promise we'll make this prettier at some point.</p>      
+      </description>
+      <enclosure url="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E03+-+Murk+The+Yanks.mp3" length="1:09:40" type="audio/mpeg"/>
+      <guid>https://www.peark.es/podcast/S01E03</guid>
+      <pubDate>Tue, 22 Apr 2025 01:00:00 GMT</pubDate>
+      <itunes:duration>1:09:40</itunes:duration>
+    </item>
+    
+    <item>
       <title>Episode 2: Dunkirk For Treats</title>
       <itunes:author>George Pearkes</itunes:author>
       <description><p>In this week's episode of Normal Men, your very normal hosts are joined by an inspiring special guest before we talk about tariffs and bonds, because tariffs and bonds are going to continue to be big news for the foreseeable future (nobody is happy about this).  We also discuss updates in the Kilmar Ábrego García case and the effort to overturn an election to the North Carolina Supreme Court.</p>
