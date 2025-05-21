@@ -14,6 +14,23 @@
     <itunes:category text="News Commentary"/>
 
     <item>
+      <title>Episode 7: A Very Moody Episode</title>
+      <itunes:author>George Pearkes</itunes:author>
+      <description><p>This week, we get into some of the details of the Moody’s US credit downgrade, and have updates on last week’s Supreme Court decision on the American Enemies Act. Finally, we talk about the world’s Chief Weeb for Boers, Elon Musk, and how his chatbot went floridly insane.</p>
+      
+      <p>Follow us on Bluesky!<br /><a href="https://bsky.app/profile/peark.es">@peark.es</a><br /><a href="https://bsky.app/profile/proptermalone.bsky.social">@proptermalone.bsky.social</a><br /><a href="https://bsky.app/profile/rickywlmsbong.bsky.social">@rickywlmsbong.bsky.social</a><br />
+      <a href="https://bsky.app/profile/golikehellmachine.com">@golikehellmachine.com</a></p>
+        
+      <p>You can also read GLHM's <a href="https://golikehellmachine.com/work-is-four-letters/">Work Is Four Letters</a> and <a href="https://golikehellmachine.com/doge-is-four-letters/">DOGE Is Four Letters</a>.</p>
+      <p>A full transcript of the show is available <a href="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E07+-+A+Very+Moody+Episode.txt">here</a>. We promise we'll make this prettier at some point.</p>      
+      </description>
+      <enclosure url="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E07+-+A+Very+Moody+Episode.mp3" length="49:11" type="audio/mpeg"/>
+      <guid>https://www.peark.es/podcast/S01E07</guid>
+      <pubDate>Wed, 21 May 2025 17:45:00 GMT</pubDate>
+      <itunes:duration>49:11</itunes:duration>
+    </item>
+    
+    <item>
       <title>Episode 6: Dad Joke Quotas</title>
       <itunes:author>George Pearkes</itunes:author>
       <description><p>This week, George returns from Greece, Lowtax Speedrun Enjoyer demands that the new Pope defend the honor of his people, we talk about some good news from North Carolina, bad news for Congressional Republicans, and discuss the newest dysfunctional alcoholic joining the second Trump Administration. Propter Malone and GOLIKEHELLMACHINE exhaust their weekly allotment of dad(bad) jokes.</p>
