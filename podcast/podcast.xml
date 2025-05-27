@@ -14,6 +14,23 @@
     <itunes:category text="News Commentary"/>
 
     <item>
+      <title>Episode 8: To All The Truck I've Loved Before</title>
+      <itunes:author>George Pearkes</itunes:author>
+      <description><p>Content Warning: This episode features a frank discussion of political violence. In this week’s show, we talk about Lowtax Speedrun Enjoyer’s limitless Jeep enthusiasm. We also get into a serious conversation about recent political violence in the United States (and why it’s bad), and discuss the finer points of the doomed-to-be-rewritten House Republican budget bill.</p>
+      
+      <p>Follow us on Bluesky!<br /><a href="https://bsky.app/profile/peark.es">@peark.es</a><br /><a href="https://bsky.app/profile/proptermalone.bsky.social">@proptermalone.bsky.social</a><br /><a href="https://bsky.app/profile/rickywlmsbong.bsky.social">@rickywlmsbong.bsky.social</a><br />
+      <a href="https://bsky.app/profile/golikehellmachine.com">@golikehellmachine.com</a></p>
+        
+      <p>You can also read GLHM's <a href="https://golikehellmachine.com/work-is-four-letters/">Work Is Four Letters</a> and <a href="https://golikehellmachine.com/doge-is-four-letters/">DOGE Is Four Letters</a>.</p>
+      <p>A full transcript of the show is available <a href="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E08+-+To+All+The+Truck+I've+Loved+Before.txt">here</a>.      
+      </description>
+      <enclosure url="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E08+-+To+All+The+Truck+I've+Loved+Before.mp3" length="1:09:20" type="audio/mpeg"/>
+      <guid>https://www.peark.es/podcast/S01E08</guid>
+      <pubDate>Tue, 27 May 2025 15:45:00 GMT</pubDate>
+      <itunes:duration>1:09:20</itunes:duration>
+    </item>
+
+    <item>
       <title>Episode 7: A Very Moody Episode</title>
       <itunes:author>George Pearkes</itunes:author>
       <description><p>This week, we get into some of the details of the Moody’s US credit downgrade, and have updates on last week’s Supreme Court decision on the American Enemies Act. Finally, we talk about the world’s Chief Weeb for Boers, Elon Musk, and how his chatbot went floridly insane.</p>
