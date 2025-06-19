@@ -14,6 +14,20 @@
     <itunes:category text="News Commentary"/>
 
     <item>
+      <title>Episode 11: Something Good Is Happening Somewhere</title>
+      <itunes:author>George Pearkes</itunes:author>
+      <description><p>One of the Normal Men has to go on hiatus, but three soldier on to talk about a vegan on a rampage, Israel's attack on Iran, No Kings Day protests, and the disconnect between national politics and local reaction.</p>
+      
+      <p>For show notes, links to our socials, and a transcript of this episode, check out <a href="https://normalmenpodcast.com/">normalmenpodcast.com</a>!</p>
+      <p>The Normal Men are supporting Time Out Youth via a Prideraiser during June! For every goal Charlotte FC (soccer team) scores in June, pledge a donation amount. At the end, you'll donate the pledge amount multiplied by the goals scored. A pledge link is available at <a href="https://peark.es/prideraiser/">peark.es/prideraiser</a>!</p> 
+      </description>
+      <enclosure url="https://pearkes-podcast-files.s3.us-east-2.amazonaws.com/Normal+Men+-+S01E11+-+Something+Good+Is+Happening+Somewhere.mp3" length="1:02:00" type="audio/mpeg"/>
+      <guid>https://www.peark.es/podcast/S01E11</guid>
+      <pubDate>Thu, 19 Jun 2025 00:15 GMT</pubDate>
+      <itunes:duration>1:02:00</itunes:duration>
+    </item>
+    
+    <item>
       <title>Episode 10: Faine Would I Fly, Yet Fear I To Fall</title>
       <itunes:author>George Pearkes</itunes:author>
       <description><p>We welcome our first guest, Faine Greenwood, to talk about drones, the Musk-Trump divorce, and the origins of the most normal meme on Bluesky.</p>
