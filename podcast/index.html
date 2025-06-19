@@ -48,6 +48,30 @@
             margin-bottom: 2.5rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid #eee;
+            scroll-margin-top: 2rem;
+        }
+        .episode.highlighted {
+            background-color: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            border-bottom: 1px solid #ffeaa7;
+            margin-bottom: 2.5rem;
+        }
+        .episode-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .episode-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .episode-link:hover {
+            opacity: 1;
+            color: #0366d6;
         }
         .episode-date {
             color: #666;
@@ -77,9 +101,34 @@
             border-radius: 4px;
             margin: 1rem 0;
         }
+        .navigation {
+            margin-bottom: 2rem;
+        }
+        .navigation button {
+            background: #0366d6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+        .navigation button:hover {
+            background: #0256cc;
+        }
+        .single-episode {
+            display: none;
+        }
+        .single-episode.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <div class="navigation" id="navigation" style="display: none;">
+        <button onclick="showAllEpisodes()">← Back to All Episodes</button>
+    </div>
+
     <div class="podcast-header">
         <h1 id="podcast-title">My Podcast</h1>
         <div class="podcast-description" id="podcast-description">
@@ -97,9 +146,108 @@
         <div class="loading">Loading episodes...</div>
     </div>
     
+    <div id="single-episode-container" class="single-episode">
+    </div>
+    
     <a href="/" class="back-link">← Back to homepage</a>
 
     <script>
+        let allEpisodes = [];
+        let currentView = 'all'; // 'all' or 'single'
+
+        // Function to create a URL-safe slug from episode title
+        function createSlug(title) {
+            return title
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+                .replace(/\s+/g, '-') // Replace spaces with hyphens
+                .replace(/-+/g, '-') // Replace multiple hyphens with single
+                .trim('-'); // Remove leading/trailing hyphens
+        }
+
+        // Function to get episode ID from URL hash
+        function getEpisodeIdFromUrl() {
+            return window.location.hash.replace('#episode-', '');
+        }
+
+        // Function to show all episodes
+        function showAllEpisodes() {
+            currentView = 'all';
+            document.getElementById('episodes-container').style.display = 'block';
+            document.getElementById('single-episode-container').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            window.location.hash = '';
+            
+            // Update page title
+            const podcastTitle = document.getElementById('podcast-title').textContent;
+            document.title = podcastTitle;
+        }
+
+        // Function to show single episode
+        function showSingleEpisode(episodeId) {
+            const episode = allEpisodes.find(ep => ep.id === episodeId);
+            if (!episode) {
+                showAllEpisodes();
+                return;
+            }
+
+            currentView = 'single';
+            document.getElementById('episodes-container').style.display = 'none';
+            document.getElementById('single-episode-container').style.display = 'block';
+            document.getElementById('navigation').style.display = 'block';
+
+            // Create single episode view
+            const container = document.getElementById('single-episode-container');
+            let episodeHTML = `<div class="episode">`;
+            episodeHTML += `<h2>${episode.title}</h2>`;
+            
+            if (episode.pubDate) {
+                episodeHTML += `<div class="episode-date">${episode.pubDate}</div>`;
+            }
+            
+            if (episode.description) {
+                episodeHTML += `<div class="episode-description">${episode.description}</div>`;
+            }
+            
+            if (episode.audioUrl) {
+                episodeHTML += `
+                    <audio class="episode-player" controls autoplay>
+                        <source src="${episode.audioUrl}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                `;
+            }
+            
+            episodeHTML += `</div>`;
+            container.innerHTML = episodeHTML;
+
+            // Update page title
+            const podcastTitle = document.getElementById('podcast-title').textContent;
+            document.title = `${episode.title} - ${podcastTitle}`;
+        }
+
+        // Function to copy episode link
+        function copyEpisodeLink(episodeId) {
+            const url = `${window.location.origin}${window.location.pathname}#episode-${episodeId}`;
+            navigator.clipboard.writeText(url).then(() => {
+                // Could add a toast notification here
+                console.log('Episode link copied to clipboard');
+            });
+        }
+
+        // Handle URL changes
+        function handleUrlChange() {
+            const episodeId = getEpisodeIdFromUrl();
+            if (episodeId && allEpisodes.length > 0) {
+                showSingleEpisode(episodeId);
+            } else if (currentView === 'single') {
+                showAllEpisodes();
+            }
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleUrlChange);
+
         document.addEventListener('DOMContentLoaded', function() {
             // Fetch the podcast XML file
             fetch('podcast.xml')
@@ -126,7 +274,9 @@
                     
                     if (podcastTitle) {
                         document.getElementById('podcast-title').textContent = podcastTitle.textContent;
-                        document.title = podcastTitle.textContent;
+                        if (currentView === 'all') {
+                            document.title = podcastTitle.textContent;
+                        }
                     }
                     
                     if (podcastDescription) {
@@ -134,9 +284,6 @@
                     }
                     
                     // Add other subscription links if available
-                    const itunesLink = channel.querySelector('itunes\\:new-feed-url, new-feed-url') || 
-                                      channel.querySelector('atom\\:link[rel="alternate"][type="application/rss+xml"], link[rel="alternate"][type="application/rss+xml"]');
-                    
                     let linksHTML = '';
                     
                     // Add Apple Podcasts link if iTunes info exists
@@ -151,7 +298,7 @@
                     
                     // Get all episodes
                     const items = xmlDoc.querySelectorAll('item');
-                    const episodes = Array.from(items).map(item => {
+                    allEpisodes = Array.from(items).map((item, index) => {
                         const title = item.querySelector('title')?.textContent || 'Untitled Episode';
                         const description = item.querySelector('description')?.textContent || '';
                         const pubDate = item.querySelector('pubDate')?.textContent || '';
@@ -175,7 +322,12 @@
                             }
                         }
                         
+                        // Create unique ID for episode
+                        const slug = createSlug(title);
+                        const id = slug || `episode-${index + 1}`;
+                        
                         return {
+                            id,
                             title,
                             description,
                             pubDate: formattedDate,
@@ -184,7 +336,7 @@
                     });
                     
                     // Sort episodes by date (newest first)
-                    episodes.sort((a, b) => {
+                    allEpisodes.sort((a, b) => {
                         const dateA = a.pubDate ? new Date(a.pubDate).getTime() : 0;
                         const dateB = b.pubDate ? new Date(b.pubDate).getTime() : 0;
                         return dateB - dateA;
@@ -194,16 +346,22 @@
                     const episodesContainer = document.getElementById('episodes-container');
                     episodesContainer.innerHTML = ''; // Clear loading message
                     
-                    if (episodes.length === 0) {
+                    if (allEpisodes.length === 0) {
                         episodesContainer.innerHTML = '<p>No episodes found.</p>';
                         return;
                     }
                     
-                    episodes.forEach(episode => {
+                    allEpisodes.forEach(episode => {
                         const episodeElement = document.createElement('div');
                         episodeElement.className = 'episode';
+                        episodeElement.id = `episode-${episode.id}`;
                         
-                        let episodeHTML = `<h2>${episode.title}</h2>`;
+                        let episodeHTML = `
+                            <div class="episode-title">
+                                <h2>${episode.title}</h2>
+                                <a href="#episode-${episode.id}" class="episode-link" title="Link to this episode">🔗</a>
+                            </div>
+                        `;
                         
                         if (episode.pubDate) {
                             episodeHTML += `<div class="episode-date">${episode.pubDate}</div>`;
@@ -225,6 +383,9 @@
                         episodeElement.innerHTML = episodeHTML;
                         episodesContainer.appendChild(episodeElement);
                     });
+
+                    // Handle initial URL if there's a hash
+                    handleUrlChange();
                 })
                 .catch(error => {
                     console.error('Error loading podcast feed:', error);
@@ -236,6 +397,9 @@
                     `;
                 });
         });
+
+        // Make showAllEpisodes available globally
+        window.showAllEpisodes = showAllEpisodes;
     </script>
 </body>
 </html>
